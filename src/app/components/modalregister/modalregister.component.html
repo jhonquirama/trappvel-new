@@ -1,0 +1,158 @@
+<div
+  class="modal fade"
+  id="modalRegister"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Registro
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          name="formRegister"
+          #formRegister="ngForm"
+          (ngSubmit)="onSaveRegister(formRegister)"
+        >
+          <div class="form-group">
+            <label for="name" class="col-form-label">Nombre:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              [(ngModel)]="user.name"
+              placeholder="Nombre"
+            />
+          </div>
+          <div class="form-group">
+            <label for="lastname" class="col-form-label">Apellido:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="lastname"
+              [(ngModel)]="user.lastName"
+              placeholder="Apellido"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="email">Correo</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Correo"
+                [(ngModel)]="user.email"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="Contraseña">Contraseña</label>
+              <input
+                type="password"
+                name="password"
+                class="form-control"
+                placeholder="Autor"
+                placeholder="Contraseña"
+                [(ngModel)]="user.password"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="age">Edad</label>
+              <input
+                type="text"
+                name="age"
+                class="form-control"
+                placeholder="Edad"
+                [(ngModel)]="user.age"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="phoneNumber">Numero Celular</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                class="form-control"
+                placeholder="Numero Celular"
+                [(ngModel)]="user.phoneNumber"
+              />
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="rol">¿Deseas ingresar a?:</label>
+            <select name="rol" class="form-control" [(ngModel)]="user.rol">
+              <option value="0">Seguir lugares</option>
+              <option value="1">Crearlos</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <h5>Seleccionar imagen:</h5>
+            <input
+              type="file"
+              accept=".png, .jpg"
+              (change)="this.onUpload($event)"
+            />
+            <div class="progress">
+              <div
+                [style.visibility]="uploadPercent == 0 ? 'hidden' : 'visible'"
+                class="progress-bar progress-bar-striped bg-success"
+                role="progressbar"
+                [style.width]="(uploadPercent | async) + '%'"
+              ></div>
+            </div>
+            <br />
+            <input #imageUser type="hidden" [value]="urlImage | async" 
+/>
+          </div>
+
+          
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              #btnClose
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              *ngIf="urlImage | async; else btnDisabled"
+              type="submit"
+              class="btn btn-lg btn-primary btn-block"
+            >
+              registrar
+            </button>
+            <ng-template #btnDisabled>
+              <button
+               routerLink="/user/login" 
+                type="submit"
+                disabled="true"
+                class="btn btn-lg btn-secondary btn-block"
+              >
+                registrar
+              </button>
+            </ng-template>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
