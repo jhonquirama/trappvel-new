@@ -5,9 +5,10 @@ import { Router } from "@angular/router";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { finalize } from "rxjs/operators";
 import { Observable } from "rxjs/internal/Observable";
-import { UserInterface } from "../../models/user";
+import { user } from "../../models/user";
 import { DataUsersService } from "src/app/services/data-users.service";
 import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: "app-modalregister",
@@ -20,30 +21,38 @@ export class ModalregisterComponent implements OnInit {
     public authservice: AuthService,
     private storage: AngularFireStorage,
     private dataapi: DataUsersService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private afsAuth: AngularFireAuth
   ) { }
 
   @ViewChild("btnClose") btnClose: ElementRef;
   @ViewChild("imageUser") inputImageUser: ElementRef;
 
-  user: UserInterface = {
-    id: "",
-    name: "",
-    lastName: "",
-    age: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
-    photoUrl: "",
-    rol: ""
+  @Input() photoUrl: string;
+
+
+  user: user = {
+    uid: '',
+    name: '',
+    lastName: '',
+    age: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
+    photoUrl: '',
+
   };
 
   uploadPercent: Observable<number>;
   urlImage: Observable<string>;
+  //urlUid: Observable<string>;
 
   public email: string = "";
   public password: string = "";
+  //public photo=
   ngOnInit() { }
+
+
 
   onSaveRegister(registerForm: NgForm): void {
     // this.authservice.updateUserData(registerForm.value );
@@ -53,7 +62,12 @@ export class ModalregisterComponent implements OnInit {
     registerForm.resetForm();
     this.btnClose.nativeElement.click();
   }
-
+  /*
+  onId(e){
+  const id=this.afsAuth.auth.currentUser;
+  this.urlUid= id.uid
+  }
+  */
   onUpload(e) {
     // console.log('subir', e.target.files[0]);
     const id = Math.random()
@@ -63,6 +77,7 @@ export class ModalregisterComponent implements OnInit {
     const filePath = `uploads/profile_${id}`;
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
+    //   const tt= this.storage.storage.refFromURL;
     this.uploadPercent = task.percentageChanges();
     task
       .snapshotChanges()
@@ -70,7 +85,7 @@ export class ModalregisterComponent implements OnInit {
       .subscribe();
   }
 
-  public onAddUsers(user: UserInterface) {
+  public onAddUsers(user: user) {
     this.authservice
       .registerUser(user.email, user.password)
       .then(() => {
@@ -83,7 +98,7 @@ export class ModalregisterComponent implements OnInit {
             //  this.dataapi.addUser(this.user);
             user
               .updateProfile({
-                displayName: this.user.name,
+                displayName: "",
                 photoURL: this.inputImageUser.nativeElement.value
               })
               .then(() => {

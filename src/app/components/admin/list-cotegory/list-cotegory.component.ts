@@ -1,10 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataApiService } from "../../../services/data-api.service";
 import { CotegoryInterface } from "../../../models/cotegory";
-import { NgForm } from "@angular/forms";
 import { AuthService } from "../../../services/auth.service";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { UserInterface } from "../../../models/user";
 
 @Component({
   selector: "app-list-cotegory",
@@ -18,25 +15,28 @@ export class ListCotegoryComponent implements OnInit {
   ) { }
   public cotegories: CotegoryInterface[]; //TODO
   public isAdmin: any = null;
-  public userEmail: string = null;
+  public userUid: string = null;
+  public roles: string = null;
+  public id: string = null
+
 
   ngOnInit() {
     this.getListCotegories();
-    this.getCurrentUser();
+    //  this.getCurrentUser();
   }
-
-  getCurrentUser() {
-    this.authService.isAuth().subscribe(auth => {
-      if (auth) {
-        this.userEmail = auth.email;
-        this.authService.isUserAdmin(this.userEmail).subscribe(userRole => {
-          this.isAdmin = Object.assign({}, userRole.rol);
-          this.isAdmin= this.isAdmin.hasOwnProperty('2');
-          // this.isAdmin = true;
-        });
-      }
-    });
-  }
+  /*
+    getCurrentUser() {
+      this.authService.isAuth().subscribe(auth => {
+        if (auth) {
+          this.userEmail = auth.email;
+          this.authService.isUserAdmin(this.userEmail).subscribe(userRole => {
+            this.isAdmin = Object.assign({}, userRole.roles).hasOwnProperty('admin');
+            // this.isAdmin = true;
+          });
+        }
+      });
+    }
+    */
   getListCotegories() {
     this.dataApi.getAllCotegories().subscribe(cotegories => {
       this.cotegories = cotegories;

@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private afsAuth: AngularFireAuth
-  ) {}
+  ) { }
   public app_name: string = "TRAPPVEL";
   public isLogged: boolean = false;
   ngOnInit() {

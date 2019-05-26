@@ -9,7 +9,8 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from "@angular/fire/firestore";
-import { UserInterface } from "../../../models/user";
+import { user } from "../../../models/user";
+import { DataUsersService } from 'src/app/services/data-users.service';
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
@@ -17,18 +18,19 @@ import { UserInterface } from "../../../models/user";
 })
 export class RegisterComponent implements OnInit {
   constructor(
-    private dataApi: DataApiService,
+    private dataUser: DataUsersService,
     private router: Router,
     private authService: AuthService,
     private storage: AngularFireStorage,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+
   ) {
     //this.itemsCollection = this.afs.collection<UserInterface>("users");
   }
   //@ViewChild("imageUser") inputImageUser: ElementRef;
 
 
-  public itemsCollection: AngularFirestoreCollection<UserInterface>;
+  public itemsCollection: AngularFirestoreCollection<user>;
 
   public email: string = "";
   public password: string = "";
@@ -90,14 +92,15 @@ export class RegisterComponent implements OnInit {
     this.authService
       .loginGoogleUser()
       .then(res => {
-        //  let user: UserInterface = {
-        //  id: this.id,
-        //  name: this.name,
-        //  email: this.email,
-        //   photoUrl: this.inputImageUser.nativeElement.value
-        // };
-        // this.itemsCollection.add(user);
+        let user: user = {
+          uid: res.user.uid,
+          name: res.user.displayName,
+          email: res.user.email,
+          photoUrl: res.user.photoURL,
 
+        }
+        // this.itemsCollection.add(user);
+        this.dataUser.addUser(user);
         this.onLoginRedirect();
       })
       .catch(err => console.log("err", err.message));
@@ -106,14 +109,13 @@ export class RegisterComponent implements OnInit {
     this.authService
       .loginFacebookUser()
       .then(res => {
-        //   let user: UserInterface = {
-        //   id: this.id,
-        // name: this.name,
-        //email: this.email,
-        //photoUrl: this.inputImageUser.nativeElement.value
-        //   };
-        //  this.itemsCollection.add(user);
-
+        let user: user = {
+          uid: res.user.uid,
+          name: res.user.displayName,
+          email: res.user.email,
+        }
+        // this.itemsCollection.add(user);
+        this.dataUser.addUser(user);
         this.onLoginRedirect();
       })
       .catch(err => console.log("err", err.message));

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["user/login"]);
 
           alert("Aun no has verificiado tu correo");
-          console.log("mal", valid);
+          // console.log("mal", valid);
 
         }
 

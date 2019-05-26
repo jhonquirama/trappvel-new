@@ -4,7 +4,7 @@ import { FriendsInterface } from "../../models/friends";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { UserInterface } from "../../models/user";
+import { user } from "../../models/user";
 
 @Component({
   selector: "app-friends",
@@ -22,20 +22,21 @@ export class FriendsComponent implements OnInit {
 
   ngOnInit() {
     //   this.getListFriends();
-    this.getCurrentUser();
+    // this.getCurrentUser();
   }
 
-  getCurrentUser() {
+  /*getCurrentUser() {
     this.authService.isAuth().subscribe(auth => {
       if (auth) {
         this.userEmail = auth.email;
         this.authService.isUserAdmin(this.userEmail).subscribe(userRole => {
-          this.isAdmin = Object.assign({}, userRole.rol).hasOwnProperty("2");
+          this.isAdmin = Object.assign({}, userRole.roles).hasOwnProperty("admin");
           // this.isAdmin = true;
         });
       }
     });
   }
+  */
 
   /* getListFriends() {
     this.dataApi.getAllFriends().subscribe(friends => {

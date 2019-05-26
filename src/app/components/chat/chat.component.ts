@@ -1,21 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { ChatService } from "./../../services/chat.service";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
-  styles: ["./chat.component.css"]
+  styles: []
 })
 export class ChatComponent implements OnInit {
   mensaje: string = "";
   elemento: any;
-  public chats: Observable<any[]>;
 
-  constructor(public _cs: ChatService, db: AngularFirestore) {
-    this.chats = db.collection("chats").valueChanges();
-
+  constructor(public _cs: ChatService) {
     this._cs.cargarMensajes().subscribe(() => {
       setTimeout(() => {
         this.elemento.scrollTop = this.elemento.scrollHeight;

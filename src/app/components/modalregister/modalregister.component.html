@@ -28,8 +28,10 @@
           (ngSubmit)="onSaveRegister(formRegister)"
         >
           <div class="form-group">
+
             <label for="name" class="col-form-label">Nombre:</label>
             <input
+            
               type="text"
               class="form-control"
               name="name"
@@ -95,13 +97,28 @@
             </div>
           </div>
 
-          <div class="form-group col-md-6">
-            <label for="rol">¿Deseas ingresar a?:</label>
-            <select name="rol" class="form-control" [(ngModel)]="user.rol">
-              <option value="0">Seguir lugares</option>
-              <option value="1">Crearlos</option>
+        <!--  <div class="form-group col-md-6">
+            <label for="roles">¿Deseas ingresar a?:</label>
+            <select  [(ngModel)]="user.roles" name="roles" class="form-control" >
+              <option value="seguidor">Seguirlos</option>
+              <option value="creador">Crearlos</option>
             </select>
           </div>
+-->
+        <!--  <div class="form-group">
+
+             <h5>Seleccionar imagen:</h5>
+            <input
+              type="text"
+              accept=".png, .jpg"
+              (change)="this.onId($event)"
+            />
+             <input #imageId [(ngModel)]="user.id"
+ type="hidden" [value]="urlUid | async" 
+/>
+          </div>
+          -->
+
 
           <div class="form-group">
             <h5>Seleccionar imagen:</h5>
@@ -119,9 +136,11 @@
               ></div>
             </div>
             <br />
-            <input #imageUser type="hidden" [value]="urlImage | async" 
+            
+            <input #imageUser  [(ngModel)]="urlImage"
+ type="hidden" [value]="urlImage | async" 
 />
-          </div>
+          </div> 
 
           
           <div class="modal-footer">

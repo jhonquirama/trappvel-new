@@ -3,7 +3,7 @@ import {
   AngularFirestore, AngularFirestoreCollection,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { UserInterface } from '../models/user';
+import { user } from '../models/user';
 import { Observable } from "rxjs/internal/Observable";
 import { map } from "rxjs/operators";
 import { AuthService } from './auth.service';
@@ -14,17 +14,18 @@ import { AuthService } from './auth.service';
 export class DataUsersService {
 
   constructor(private afs: AngularFirestore, private authService: AuthService) {
-    this.usersCollection = this.afs.collection<UserInterface>("users");
+    this.usersCollection = this.afs.collection<user>("users");
 
   }
 
 
-  private usersCollection: AngularFirestoreCollection<UserInterface>;
-  private users: Observable<UserInterface[]>;
-  private userDoc: AngularFirestoreDocument<UserInterface>;
-  private user: Observable<UserInterface>;
-  public selectedUser: UserInterface = {
-    id: ""
+  private usersCollection: AngularFirestoreCollection<user>;
+  private users: Observable<user[]>;
+  private userDoc: AngularFirestoreDocument<user>;
+  private user: Observable<user>;
+  public selectedUser: user = {
+    uid: null,
+
 
   };
 
@@ -33,15 +34,15 @@ export class DataUsersService {
 
   //users
   getAllUsers() {
-    this.usersCollection = this.afs.collection<UserInterface>("users");
+    this.usersCollection = this.afs.collection<user>("users");
     return (this.users = this.usersCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(action => {
-          const data = action.payload.doc.data() as UserInterface;
+          const data = action.payload.doc.data() as user;
 
-          data.id = action.payload.doc.id;
+          data.uid = action.payload.doc.id;
 
-          // console.log("oeoeofffe", data);
+          console.log("oeoeofffe", data);
 
           return data;
         });
@@ -49,31 +50,34 @@ export class DataUsersService {
     ));
   }
 
-  getOneUsers(idUser: string) {
-    this.userDoc = this.afs.doc<UserInterface>(`users/${idUser}`);
+  getOneUsers(userUid: string) {
+    this.userDoc = this.afs.doc<user>(`users/${userUid}`);
     return (this.user = this.userDoc.snapshotChanges().pipe(
       map(action => {
         if (action.payload.exists === false) {
           return null;
         } else {
-          const data = action.payload.data() as UserInterface;
-          data.id = action.payload.id;
+          const data = action.payload.data() as user;
+          data.uid = action.payload.id;
           return data;
         }
       })
     ));
   }
 
-  addUser(user: UserInterface): void {
+  addUser(user: user): void {
     this.usersCollection.add(user);
   }
-  updateUser(user: UserInterface): void {
-    let idUser = user.id;
-    this.userDoc = this.afs.doc<UserInterface>(`user/${idUser}`);
+  updateUser(user: user): void {
+    let userUid = user.uid;
+    this.userDoc = this.afs.doc<user>(`user/${userUid}`);
     this.userDoc.update(user);
   }
-  deleteUser(idUser: string): void {
-    this.userDoc = this.afs.doc<UserInterface>(`users/${idUser}`);
+
+
+
+  deleteUser(userUid: string): void {
+    this.userDoc = this.afs.doc<user>(`users/${userUid}`);
     this.userDoc.delete();
   }
 }

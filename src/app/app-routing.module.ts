@@ -1,3 +1,4 @@
+import { ListaUsuariosComponent } from './components/admin/lista-usuarios/lista-usuarios.component';
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule, CanActivate } from "@angular/router";
 import { HomeComponent } from "./components/home/home.component";
@@ -18,7 +19,7 @@ const routes: Routes = [
     component: ChatComponent,
     canActivate: [AuthGuard]
   },
-  { path: "clients", component: ClientsComponent, canActivate: [AuthGuard] },
+  { path: "admin/lista-usuarios", component: ListaUsuariosComponent, canActivate: [AuthGuard] },
   {
     path: "admin/list-cotegory",
     component: ListCotegoryComponent,
@@ -38,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

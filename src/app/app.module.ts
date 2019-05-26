@@ -23,6 +23,7 @@ import { ListCotegoryComponent } from "./components/admin/list-cotegory/list-cot
 import { FriendsComponent } from "./components/friends/friends.component";
 import { ClientsComponent } from "./components/clients/clients.component";
 import { ModalregisterComponent } from './components/modalregister/modalregister.component';
+import { ListaUsuariosComponent } from './components/admin/lista-usuarios/lista-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { ModalregisterComponent } from './components/modalregister/modalregister
     ListCotegoryComponent,
     FriendsComponent,
     ClientsComponent,
-    ModalregisterComponent
+    ModalregisterComponent,
+    ListaUsuariosComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -51,4 +54,4 @@ import { ModalregisterComponent } from './components/modalregister/modalregister
   providers: [AngularFireAuth, AngularFirestore, ChatService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

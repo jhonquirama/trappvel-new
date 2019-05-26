@@ -7,7 +7,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from "@angular/fire/firestore";
-import { UserInterface } from "../models/user";
+import { user } from "../models/user";
 import { ArgumentOutOfRangeError } from "rxjs";
 import { NgForm } from "@angular/forms";
 import { resolve } from 'url';
@@ -23,7 +23,7 @@ export class AuthService {
   ) { }
 
 
-  public selectedUser: UserInterface = {};
+  // public selectedUser: UserInterface = {};
 
 
   /* registerUser(email: string, pass: string) {
@@ -70,6 +70,7 @@ export class AuthService {
 
   sendVerification() {
     let user = this.afsAuth.auth.currentUser;
+
     user.sendEmailVerification().then(() => {
       console.log('Please verify your email');
       alert('Estas a un paso, Por favor verifica tu correo');
@@ -104,8 +105,21 @@ export class AuthService {
   }
 
   isAuth() {
-    return this.afsAuth.authState.pipe(map(auth => auth));
+    return this.afsAuth.authState.pipe(map(auth =>
+      auth));
   }
+
+
+  private updateUserData(user) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const data: user = {
+      uid: user.uid,
+      email: user.email,
+
+    }
+    return userRef.set(data, { merge: true })
+  }
+
 
   /* public updateUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
@@ -126,6 +140,6 @@ export class AuthService {
   */
 
   isUserAdmin(userEmail) {
-    return this.afs.doc<UserInterface>(`users/${userEmail}`).valueChanges();
+    return this.afs.doc<user>(`users/${userEmail}`).valueChanges();
   }
 }

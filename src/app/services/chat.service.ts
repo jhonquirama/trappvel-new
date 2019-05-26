@@ -26,17 +26,7 @@ export class ChatService {
     });
   }
 
-  login(proveedor: string) {
-    if (proveedor === "google") {
-      this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
-    } else {
-      this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
-    }
-  }
-  logout() {
-    this.usuario = {};
-    this.afAuth.auth.signOut();
-  }
+
 
   cargarMensajes() {
     this.itemsCollection = this.afs.collection<Mensaje>("chats", ref =>
@@ -56,10 +46,10 @@ export class ChatService {
       })
     );
   }
-  agregarMensaje(texto: String) {
+  agregarMensaje(text: string) {
     let mensaje: Mensaje = {
       nombre: this.usuario.nombre,
-      mensaje: texto,
+      mensaje: text,
       fecha: new Date().getTime(),
       hora: new Date().getTime(),
       uid: this.usuario.uid

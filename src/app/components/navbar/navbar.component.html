@@ -24,13 +24,16 @@
         <a class="nav-link" routerLink="/user/profile">Perfil</a>
       </li>
       <li class="nav-item" *ngIf="isLogged">
-        <a class="nav-link" routerLink="/clients">Usuarios</a>
+        <a class="nav-link" routerLink="admin/lista-usuarios">Usuarios</a>
       </li>
       <li class="nav-item" *ngIf="isLogged">
-        <a class="nav-link" routerLink="/clients">chat</a>
+        <a class="nav-link" routerLink="/chats">chat</a>
       </li>
+
       <li class="nav-item" *ngIf="isLogged">
-        <a class="nav-link" routerLink="/chats">Lista categorias</a>
+        <a class="nav-link" routerLink="admin/list-cotegory"
+          >Lista categorias</a
+        >
       </li>
       <li class="nav-item" *ngIf="!isLogged">
         <a class="nav-link" routerLink="/user/login">Login </a>

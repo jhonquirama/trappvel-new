@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { DataApiService } from "../../services/data-api.service";
-import { CotegoryInterface } from "../../models/cotegory";
 import { NgForm } from "@angular/forms";
 
 @Component({
@@ -9,15 +8,15 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./modal.component.css"]
 })
 export class ModalComponent implements OnInit {
-  constructor(public dataApi: DataApiService) {}
+  constructor(public dataApi: DataApiService) { }
   @ViewChild("btnClose") btnClose: ElementRef;
-  @Input() userEmail: string;
-  ngOnInit() {}
+  @Input() userUid: string;
+  ngOnInit() { }
 
   onSaveCotegory(cotegoryForm: NgForm): void {
     if (cotegoryForm.value.id == null) {
       // New
-      cotegoryForm.value.userUid = this.userEmail;
+      cotegoryForm.value.userUid = this.userUid;
       this.dataApi.addCotegory(cotegoryForm.value);
     } else {
       // Update
